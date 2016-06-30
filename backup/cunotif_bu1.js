@@ -11,6 +11,7 @@ module.exports = function(RED) {
     var urlCumul = "https://management.";
     var urlTenant = "teleena-iot.com/";
     var urlSufix1 = "";
+    var urlSufix2 = "";
 
     function HTTPRequestCum(n) {
         RED.nodes.createNode(this,n);
@@ -21,35 +22,33 @@ module.exports = function(RED) {
         var useDate = n.useDate;
         var fromDate = n.fromDate;
         var toDate = n.toDate;
-        
+               
 //        console.log("Wade - notification = " + notification);
-//        console.log("Wade - device = " + device);
+          console.log("Wade - device = " + device);
 //        console.log("Wade - notiftype = " + notiftype);
 //        console.log("Wade - useDate = " + useDate);
 //        console.log("Wade - fromDate = " + fromDate);
 //        console.log("Wade - toDate = " + toDate);
         
-        //var nodeUrl = n.url;
-        //var nodeUrl = "https://management.teleena-iot.com/event/events";
-        //var nodeUrl = urlCumul + urlTenant + "event/events";
+
         
         
         if (notification === "measurements") {
-            urlSufix1 = "measurement/measurements";
+            urlSufix1 = "measurement/measurements?";
             
         } else if (notification === "events") {
-            urlSufix1 = "event/events";
+            urlSufix1 = "event/events?";
         } else if (notification === "alarms") {
-            urlSufix1 = "alarm/alarms";
+            urlSufix1 = "alarm/alarms?";
         }
-        
-        if (this.device) {
+         
+        if (device === "") {
             console.log("PPPP1 - device = " + device);
         } else {
             console.log("PPPP2 - device = " + device);
         }
         
-        var nodeUrl = urlCumul + urlTenant + urlSufix1;
+        var nodeUrl = urlCumul + urlTenant + urlSufix1 + device + notiftype;
         console.log("Wade - nodeUrl = " + nodeUrl);
         
         var isTemplatedUrl = (nodeUrl||"").indexOf("{{") != -1;

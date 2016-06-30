@@ -9,22 +9,21 @@
           <option value='events'>Events</option>
         </select>
     </div>
-    
-    
     <div class="form-row">
-        <input type="checkbox" id="node-input-useDevice" style="display: inline-block; width: auto; vertical-align: top;">
-        <label for="node-input-useDevice" style="width: 70%;">Device Filter</label>
-        <select type="text" id="node-input-device" style="width:50%;" class="node-input-device hide">
-            <option value='19083'>Levi9 Mbed</option>
-            <option value='18259'>Mbed Device 1</option>
+        <label for="node-input-useDevice"><i class="fa fa-arrow-left"></i>Device</label>
+        <select type="text" id="node-input-device" style="width:50%;">
+            <option value=''>no selection</option>
+            <option value='&source=19083'>Levi9 Mbed</option>
+            <option value='&source=18259'>Mbed Device 1</option>
         </select>   
     </div>
     
     <div class="form-row">
         <label for="node-input-notiftype"><i class="fa fa-arrow-left"></i>Type</label>
         <select type="text" id="node-input-notiftype" style="width:50%;">
-            <option value='c8y_SignalStrength'>c8y_SignalStrength</option>
-            <option value='c8y_TemperatureMeasurement'>c8y_TemperatureMeasurement</option>
+            <option value=''>no selection</option>
+            <option value='&type=c8y_SignalStrength'>c8y_SignalStrength</option>
+            <option value='&type=c8y_TemperatureMeasurement'>c8y_TemperatureMeasurement</option>
         </select>
     </div>
 
@@ -98,22 +97,6 @@
             }
             $("#node-input-useDate").change();
             
-            $("#node-input-useDevice").change(function() {
-                if ($(this).is(":checked")) {
-                    $(".node-input-device").show();
-                } else {
-                    $(".node-input-device").hide();
-                    $(".node-input-device").val('');
-                    this.device.value === '';
-                }
-            });
-            //document.getElementById('id_here').selectedIndex = -1;
-            if (this.device !== '') {
-                $('#node-input-useDevice').prop('checked', false);
-            } else {
-                $('#node-input-useDevice').prop('checked', true);
-            }
-            $("#node-input-useDevice").change();
         },
         oneditsave: function() {
             
