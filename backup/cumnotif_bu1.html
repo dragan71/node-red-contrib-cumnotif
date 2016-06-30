@@ -1,0 +1,122 @@
+
+<script type="text/x-red" data-template-name="cumnotif">
+    
+    <div class="form-row">
+        <label for="node-input-notification" style="width: auto"><i class="fa fa-arrow-left"></i>Notification Type</label>
+        <select type="text" id="node-input-notification" style="width:50%;">
+          <option value='measurements'>Measurements</option>
+          <option value='alarms'>Alarms</option>
+          <option value='events'>Events</option>
+        </select>
+    </div>
+    
+    
+    <div class="form-row">
+        <input type="checkbox" id="node-input-useDevice" style="display: inline-block; width: auto; vertical-align: top;">
+        <label for="node-input-useDevice" style="width: 70%;">Device Filter</label>
+        <select type="text" id="node-input-device" style="width:50%;" class="node-input-device hide">
+            <option value='19083'>Levi9 Mbed</option>
+            <option value='18259'>Mbed Device 1</option>
+        </select>   
+    </div>
+    
+    <div class="form-row">
+        <label for="node-input-notiftype"><i class="fa fa-arrow-left"></i>Type</label>
+        <select type="text" id="node-input-notiftype" style="width:50%;">
+            <option value='c8y_SignalStrength'>c8y_SignalStrength</option>
+            <option value='c8y_TemperatureMeasurement'>c8y_TemperatureMeasurement</option>
+        </select>
+    </div>
+
+    <div class="form-row">
+        <input type="checkbox" id="node-input-useDate" style="display: inline-block; width: auto; vertical-align: top;">
+        <label for="node-input-useDate" style="width: 70%;">Date Filter</label>
+        <div style="margin-left: 20px" class="node-input-useDate-row hide">
+            <div class="form-row">
+                <label for="node-input-fromDate">From Date</label>
+                <input type="text" id="node-input-fromDate">
+            </div>
+            <div class="form-row">
+                <label for="node-input-toDate">To Date</label>
+                <input type="text" id="node-input-toDate">
+            </div>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-tips" id="tip-json" hidden><span data-i18n="httpin.tip.req"></span></div>
+</script>
+
+<script type="text/x-red" data-help-name="cumnotif">
+    <p>Provides a node for making http requests.</p>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('cumnotif',{
+        category: 'function',
+        color:"rgb(231, 231, 174)",
+        defaults: {
+            name: {value:"CumNotif"},
+            notification: {value:"measurements",required: true},
+            device: {value:""},
+            notiftype: {value:""},
+            useDate: {},
+            fromDate: {value:""},
+            toDate: {value:""},
+        },
+        credentials: {
+                user: {type:"text"},
+                password: {type: "password"}
+            },
+        
+        inputs:1,
+        outputs:1,
+        icon: "white-globe.png",
+        label: function() {
+            return this.name||this._("httpin.httpreq");
+        },
+//        labelStyle: function() {
+//            return this.name?"node_label_italic":"";
+//        },
+        oneditprepare: function() {
+            $("#node-input-useDate").change(function() {
+                if ($(this).is(":checked")) {
+                    $(".node-input-useDate-row").show();
+                } else {
+                    $(".node-input-useDate-row").hide();
+                    $('#node-input-fromDate').val('');
+                    $('#node-input-toDate').val('');
+                }
+            });
+            if (this.fromDate || this.toDate) {
+                $('#node-input-useDate').prop('checked', true);
+            } else {
+                $('#node-input-useDate').prop('checked', false);
+            }
+            $("#node-input-useDate").change();
+            
+            $("#node-input-useDevice").change(function() {
+                if ($(this).is(":checked")) {
+                    $(".node-input-device").show();
+                } else {
+                    $(".node-input-device").hide();
+                    $(".node-input-device").val('');
+                    this.device.value === '';
+                }
+            });
+            //document.getElementById('id_here').selectedIndex = -1;
+            if (this.device !== '') {
+                $('#node-input-useDevice').prop('checked', false);
+            } else {
+                $('#node-input-useDevice').prop('checked', true);
+            }
+            $("#node-input-useDevice").change();
+        },
+        oneditsave: function() {
+            
+        }
+    });
+</script>
