@@ -1,0 +1,17 @@
+{
+    "name": "node-red-contrib-cumnotif",
+    "version": "1.0.0",
+    "description": "A sample for retriving Cumulocity notifications...",
+    "keywords": ["util", "functional", "server", "client", "browser"],
+    "author": "d.mihajlovic",
+    "contributors": [],
+    "dependencies"  : {
+        "follow-redirects":"0.2.0",
+        "mustache": "2.2.1"
+    },
+    "node-red": {
+        "nodes": {
+            "cumnotif": "cumnotif/cumnotif.js"
+        }
+    }
+}
