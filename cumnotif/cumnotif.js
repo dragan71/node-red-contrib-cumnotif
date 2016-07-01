@@ -12,6 +12,8 @@ module.exports = function(RED) {
     var urlTenant = "teleena-iot.com/";
     var urlSufix1 = "";
     var urlSufix2 = "";
+    
+    var loginHelper = require("./httpreq2");
 
     function HTTPRequestCum(n) {
         RED.nodes.createNode(this,n);
@@ -50,7 +52,12 @@ module.exports = function(RED) {
             console.log("PPPP2 - device = " + device);
         }
         
-        var nodeUrl = urlCumul + urlTenant + urlSufix1 + device + notiftype;
+        
+        
+        
+        
+        //var nodeUrl = urlCumul + urlTenant + urlSufix1 + device + notiftype;
+        var nodeUrl = "https://management.teleena-iot.com/measurement/measurements?source=19083&type=c8y_SignalStrength";
         console.log("Wade - nodeUrl = " + nodeUrl);
         
         var isTemplatedUrl = (nodeUrl||"").indexOf("{{") != -1;
@@ -69,7 +76,9 @@ module.exports = function(RED) {
         if (process.env.no_proxy != null) { noprox = process.env.no_proxy.split(","); }
         if (process.env.NO_PROXY != null) { noprox = process.env.NO_PROXY.split(","); }
         
-        
+        this.connect = function() {
+            console.log("OJHAHA.....");
+        }
         
 
         this.on("input",function(msg) {
@@ -119,6 +128,7 @@ module.exports = function(RED) {
                     }
                 }
             }
+            
             
             this.credentials.user = "levi9.dragan";
             this.credentials.password = "Cum9Tel16";
@@ -231,10 +241,108 @@ module.exports = function(RED) {
         });
     }
 
-    RED.nodes.registerType("cumnotif",HTTPRequestCum,{
+    RED.nodes.registerType("httpRequestCum",HTTPRequestCum,{
         credentials: {
             user: {type:"text"},
             password: {type: "password"}
         }
     });
+    
+    
+    
+    function CumNotif(n) {
+        RED.nodes.createNode(this,n);
+        
+        this.method = "GET";
+        this.credentials.user = "levi9.dragan";
+        this.credentials.password = "Cum9Tel16";
+        
+        
+        
+        var notification = n.notification;
+        var device = "";
+        var notiftype = n.notiftype;
+        var useDate = n.useDate;
+        var fromDate = n.fromDate;
+        var toDate = n.toDate;
+               
+//        console.log("Wade - notification = " + notification);
+          console.log("Wade - device = " + device);
+//        console.log("Wade - notiftype = " + notiftype);
+//        console.log("Wade - useDate = " + useDate);
+//        console.log("Wade - fromDate = " + fromDate);
+//        console.log("Wade - toDate = " + toDate);
+        
+
+        if (n.device !== "") {
+            device = "&source=" + n.device;
+        }
+        
+        if (notification === "measurements") {
+            urlSufix1 = "measurement/measurements?";
+            
+        } else if (notification === "events") {
+            urlSufix1 = "event/events?";
+        } else if (notification === "alarms") {
+            urlSufix1 = "alarm/alarms?";
+        }
+         
+        if (device === "") {
+            console.log("PPPP1 - device = " + device);
+        } else {
+            console.log("PPPP2 - device = " + device);
+        }
+        
+        
+        
+        
+        var node = this;
+        this.nodeUrl = urlCumul + urlTenant + urlSufix1 + device + notiftype;
+        //var nodeUrl = "https://management.teleena-iot.com/measurement/measurements?source=19083&type=c8y_SignalStrength";
+        
+        node.on("input", function(msg) {
+
+            loginHelper.httpRequest2(msg, nodeUrl, node, function (error, resp) {
+                node.status({fill:"blue",shape:"dot",text:"httpin.status.requesting"});
+                
+                if (error) {
+                    
+                    if (error === "nooverride") {
+                        console.log("SSSS- error = " + error);
+                        node.warn(RED._("common.errors.nooverride"));
+                    } else {
+                        console.log("KOKO- error = " + error);
+                    }
+                    
+                    
+                    
+//                    node.error(err,msg);
+//                    msg.payload = err.toString() + " : " + url;
+//                    msg.statusCode = err.code;
+//                    node.send(msg);
+//                    node.status({fill:"red",shape:"ring",text:err.code});
+                } else {
+                    
+                    var arrayl = JSON.parse(resp.payload);
+                    var newArray = [];
+                    for(var i=0;i<arrayl.measurements.length;i++){ 
+                        newArray.push(arrayl.measurements[i].id +" "+arrayl.measurements[i].type);
+                    }
+                    console.log(newArray);
+                    //return msg;
+                    
+                    //node.send(newArray);
+                    node.send(resp);
+                    node.status({});
+                }
+
+            });
+
+        });
+
+        
+    }
+    
+    RED.nodes.registerType("cumnotif", CumNotif);
+    
 }
