@@ -1,5 +1,5 @@
 module.exports = {
-    httpRequest: doHttpRequest
+    httpRequest2: doHttpRequest2
 };
 
 var https = require('https');
@@ -11,14 +11,13 @@ var urllib = require("url");
 var mustache = require("mustache");
 var querystring = require("querystring");
 
-function doHttpRequest(msg, nodein, callback) {
+function doHttpRequest2(msg, requrl, nodein, callback) {
     
     var node = nodein;
 
     //var nodeUrl = urlCumul + urlTenant + urlSufix1 + device + notiftype;
-        //var nodeUrl = "https://management.teleena-iot.com/measurement/measurements?source=19083&type=c8y_SignalStrength";
-        var nodeUrl = node.nodeUrl;
-        console.log("Wade111 - nodeUrl = " + nodeUrl);
+        var nodeUrl = "https://management.teleena-iot.com/measurement/measurements?source=19083&type=c8y_SignalStrength";
+        console.log("Wade - nodeUrl = " + nodeUrl);
         
         var isTemplatedUrl = (nodeUrl||"").indexOf("{{") != -1;
         var nodeMethod = node.method || "GET";
@@ -62,6 +61,8 @@ function doHttpRequest(msg, nodein, callback) {
 //                }
 //            }
 
+            
+              
             var method = nodeMethod.toUpperCase() || "GET";
             if (msg.method && n.method && (n.method !== "use")) {     // warn if override option not set
                 //node.warn(RED._("common.errors.nooverride"));
