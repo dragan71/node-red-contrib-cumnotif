@@ -26,18 +26,22 @@ module.exports = function(RED) {
         this.credentials.password = "Cum9Tel16";
 
         var notification = n.notification;
+        var paginateFilter = "";
         var deviceFilter = "";
-        var deviceTypeFilter = "";
+        var typeFilter = "";
+        var dateFilter = "";
         var useDate = n.useDate;
+        
+        var fday = n.fday;
+        var fmonth = n.fmonth;
+        var fyear = n.fyear;
+        var tday = n.tday;
+        var tmonth = n.tmonth;
+        var tyear = n.tyear;
+        
         var fromDate = n.fromDate;
         var toDate = n.toDate;
-               
-//        console.log("Wade - notification = " + notification);
-//        console.log("Wade - deviceTypeFilter = " + deviceTypeFilter);
-//        console.log("Wade - useDate = " + useDate);
-        console.log("Wade - fromDate = " + fromDate);
-        console.log("Wade - toDate = " + toDate);
-        
+  
         var today = new Date();
         var todaystring = today.getFullYear()  + "-" + (today.getMonth()+1) + "-" + today.getDate();
         console.log("Wade - todaystring = " + todaystring);
@@ -61,41 +65,55 @@ module.exports = function(RED) {
 //        var newDate2string = newDate2.getFullYear()  + "-" + (newDate2.getMonth()+1) + "-" + newDate2.getDate();
 //        console.log("Wade - newDate2 = " + newDate2string);
 
-
-        if (notification === "measurements") {
-            urlSufix1 = "measurement/measurements?";
-        } else if (notification === "events") {
-            urlSufix1 = "event/events?";
-        } else if (notification === "alarms") {
-            urlSufix1 = "alarm/alarms?";
-        }
-        
-        if (n.device !== "") {
-            deviceFilter = "&source=" + n.device;   
-        }
-        
-        if (n.devicetype !== "") {
-            deviceTypeFilter = "&type=" + n.devicetype;
-        }
-        
-        //console.log("DD1 - deviceFilter = " + deviceFilter);
-        //console.log("DD2 - deviceTypeFilter = " + deviceTypeFilter);
-        
-        console.log("PRIM - useDate = " + useDate);
         if (useDate === true) {
             console.log("UD1 - useDate = " + useDate);
+            dateFilter = "&dateFrom=" + fyear + "-" + fmonth + "-"+ fday + "&dateTo=" + tyear + "-" + tmonth + "-"+ tday;
         } else if (useDate === false) {
             console.log("UD2 - useDate = " + useDate);
         } else {
             console.log("UD00 - useDate = " + useDate);
         }
+
+
+        if (notification === "measurements") {
+            urlSufix1 = "measurement/measurements?";
+            if ((n.devicetype !== "")&& (n.devicetype !== "undefined")) {
+                typeFilter = "&type=" + n.devicetype;
+            }
+        } else if (notification === "events") {
+            urlSufix1 = "event/events?";
+            if ((n.eventstype !== "")&& (n.eventstype !== "undefined")) {
+                typeFilter = "&type=" + n.eventstype;
+            }
+        } else if (notification === "alarms") {
+            urlSufix1 = "alarm/alarms?";
+            if ((n.alarmstatus !== "")&& (n.alarmstatus !== "undefined")) {
+                typeFilter = "&status=" + n.alarmstatus;
+            }
+            dateFilter = "";
+            
+        }
+        
+        if ((n.paginate !== "")&& (n.paginate !== "undefined")) {
+            paginateFilter = "&pageSize=" + n.paginate;   
+        }
+        
+        if ((n.device !== "")&& (n.device !== "undefined")) {
+            deviceFilter = "&source=" + n.device;   
+        }
+        
+        
+        
+        //console.log("DD1 - deviceFilter = " + deviceFilter);
+        //console.log("DD2 - deviceTypeFilter = " + deviceTypeFilter);
+        
+        
         
         
 
         var node = this;
-        this.nodeUrl = urlCumul + urlTenant + urlSufix1 + deviceFilter + deviceTypeFilter;
-        console.log("NNN - notification = " + urlSufix1);
-        console.log("FFF - filter = " + deviceFilter + deviceTypeFilter);
+        this.nodeUrl = urlCumul + urlTenant + urlSufix1 + deviceFilter + typeFilter + dateFilter + paginateFilter;
+        console.log("URL - this.nodeUrl = " + this.nodeUrl);
         //var nodeUrl = "https://management.teleena-iot.com/measurement/measurements?source=19083&type=c8y_SignalStrength";
         
         node.on("input", function(msg) {

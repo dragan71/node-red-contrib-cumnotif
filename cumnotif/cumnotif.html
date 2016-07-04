@@ -1,16 +1,29 @@
 
 <script type="text/x-red" data-template-name="cumnotif">
     
+    
+    
     <div class="form-row">
-        <label for="node-input-notification" style="width: auto"><i class="fa fa-arrow-left"></i>Notification Type</label>
-        <select type="text" id="node-input-notification" style="width:50%;">
+        <label for="node-input-notification" style="width:40%;"><i class="fa fa-tag"></i> Notification Type  </label>
+        <select type="text" id="node-input-notification" style="width:48%;">
           <option value='measurements'>Measurements</option>
-          <option value='alarms'>Alarms</option>
           <option value='events'>Events</option>
+          <option value='alarms'>Alarms</option> 
         </select>
     </div>
+    
     <div class="form-row">
-        <label for="node-input-useDevice"><i class="fa fa-arrow-left"></i>Device</label>
+        <label for="node-input-paginate" style="width:40%;"><i class="fa fa-tag"></i> Number of results  </label>
+        <input type="text" id="node-input-paginate" placeholder="if nothing is set 5 is by default" style="width:45%;">
+    </div>
+    
+    <div class="form-row">
+        <label style="width: auto">    Filters</label>
+        
+    </div>
+    
+    <div class="form-row">
+        <label for="node-input-useDevice" style="width:26%;"><i class="fa fa-arrow-left"></i> Device </label>
         <select type="text" id="node-input-device" style="width:50%;">
             <option value=''>no selection</option>
             <option value='19083'>Levi9 Mbed</option>
@@ -18,32 +31,44 @@
         </select>   
     </div>
     
+    <div class="node-input-devicetype-row show">
     <div class="form-row">
-        <label for="node-input-devicetype"><i class="fa fa-arrow-left"></i>Type</label>
+        <label for="node-input-devicetype" style="width:26%;"><i class="fa fa-arrow-left"></i> Device type</label>
         <select type="text" id="node-input-devicetype" style="width:50%;">
             <option value=''>no selection</option>
             <option value='c8y_SignalStrength'>c8y_SignalStrength</option>
             <option value='c8y_TemperatureMeasurement'>c8y_TemperatureMeasurement</option>
         </select>
     </div>
-
+    </div>
+    
+    <div class="node-input-eventstype-row show">
+    <div class="form-row" >
+        <label for="node-input-eventstype" style="width:26%;"><i class="fa fa-arrow-left"></i> Events Type</label>
+        <select type="text" id="node-input-eventstype" style="width:50%;">
+            <option value=''>no selection</option>
+            <option value='c8y_SignalStrength111'>c8y_SignalStrength111</option>
+            <option value='c8y_TemperatureMeasurement111'>c8y_TemperatureMeasurement1111</option>
+        </select>
+    </div>
+    </div>
+    
+    <div class="node-input-alarmstatus-row show">
+    <div class="form-row" >
+        <label for="node-input-alarmstatus" style="width:26%;"><i class="fa fa-arrow-left"></i> Alarm status</label>
+        <select type="text" id="node-input-alarmstatus" style="width:50%;">
+            <option value=''>no selection</option>
+            <option value='CLEARED'>CLEARED</option>
+        </select>
+    </div>
+    </div>
+    
+    <div class="node-input-dateFilter-row show">
     <div class="form-row">
-        <input type="checkbox" id="node-input-useDate" style="display: inline-block; width: auto; vertical-align: top;">
-        <label for="node-input-useDate" style="width: 70%;">Date Filter</label>
+        <input type="checkbox" id="node-input-useDate" style="display: inline-block; width: auto; vertical-align: top;" >
+        <label for="node-input-useDate" style="width: 70%;">Date</label>
 
         <div style="margin-left: 20px" class="node-input-useDate-row hide">
-        
-            <div class="form-row">
-                <label for="node-input-periodCmb">Chose period</label>
-                <select type="text" id="node-input-periodCmb" style="width:50%;">
-                    <option value=''>no selection</option>
-                    <option value='Today'>Today</option>
-                    <option value='Last 7 days'>Last 7 days</option>
-                    <option value='Last 30 days'>Last 30 days</option>
-                    <option value='Last 6 months'>Last 6 months</option>
-                    <option value='Last 12 months'>Last 12 months</option>
-                </select>
-            </div>
         
             <div class="form-row">
                 <label for="node-input-fromDate">From Date</label>
@@ -116,10 +141,79 @@
                     <option value='2029'>2029</option>
                 </select>
             </div>
+    
             <div class="form-row">
                 <label for="node-input-toDate">To Date</label>
-                <input type="text" id="node-input-toDate">
+                <select type="text" id="node-input-tday" style="width: auto">
+                    <option value='1'>1</option>
+                    <option value='2'>2</option>
+                    <option value='3'>3</option>
+                    <option value='4'>4</option>
+                    <option value='5'>5</option>
+                    <option value='6'>6</option>
+                    <option value='7'>7</option>
+                    <option value='8'>8</option>
+                    <option value='9'>9</option>
+                    <option value='10'>10</option>
+                    <option value='11'>11</option>
+                    <option value='12'>12</option>
+                    <option value='13'>13</option>
+                    <option value='14'>14</option>
+                    <option value='15'>15</option>
+                    <option value='16'>16</option>
+                    <option value='17'>17</option>
+                    <option value='18'>18</option>
+                    <option value='19'>19</option>
+                    <option value='20'>20</option>
+                    <option value='21'>21</option>
+                    <option value='22'>22</option>
+                    <option value='23'>23</option>
+                    <option value='24'>24</option>
+                    <option value='25'>25</option>
+                    <option value='26'>26</option>
+                    <option value='27'>27</option>
+                    <option value='28'>28</option>
+                    <option value='29'>29</option>
+                    <option value='30'>30</option>
+                    <option value='31'>31</option>
+                </select>
+                <select type="text" id="node-input-tmonth" style="width: auto">
+                    <option value='1'>Jan</option>
+                    <option value='2'>Feb</option>
+                    <option value='3'>Mar</option>
+                    <option value='4'>Apr</option>
+                    <option value='5'>May</option>
+                    <option value='6'>Jun</option>
+                    <option value='7'>Jul</option>
+                    <option value='8'>Avg</option>
+                    <option value='9'>Sep</option>
+                    <option value='10'>Oct</option>
+                    <option value='11'>Nov</option>
+                    <option value='12'>Dec</option>
+                </select>
+                <select type="text" id="node-input-tyear" style="width: auto">
+                    <option value='2011'>2011</option>
+                    <option value='2012'>2012</option>
+                    <option value='2013'>2013</option>
+                    <option value='2014'>2014</option>
+                    <option value='2015'>2015</option>
+                    <option value='2016'>2016</option>
+                    <option value='2017'>2017</option>
+                    <option value='2018'>2018</option>
+                    <option value='2019'>2019</option>
+                    <option value='2020'>2020</option>
+                    <option value='2021'>2021</option>
+                    <option value='2022'>2022</option>
+                    <option value='2023'>2023</option>
+                    <option value='2024'>2024</option>
+                    <option value='2025'>2025</option>
+                    <option value='2026'>2026</option>
+                    <option value='2027'>2027</option>
+                    <option value='2028'>2028</option>
+                    <option value='2029'>2029</option>
+                </select>
             </div>
+        </div>
         </div>
     </div>
 
@@ -141,11 +235,22 @@
         defaults: {
             name: {value:"CumNotif"},
             notification: {value:"measurements",required: true},
+            paginate: {value:"", validate:function(v) {
+                return /^[+-]?[0-9]*\.?[0-9]*([eE][-+]?[0-9]+)?$/.test(v);
+            }},
             device: {value:""},
             devicetype: {value:""},
-            useDate: {},
+            eventstype: {value:""},
+            alarmstatus: {value:""},
+            useDate: {value:false},
             fromDate: {value:""},
             toDate: {value:""},
+            fday: {value:""},
+            fmonth: {value:""},
+            fyear: {value:""},
+            tday: {value:""},
+            tmonth: {value:""},
+            tyear: {value:""},
         },
         credentials: {
                 user: {type:"text"},
@@ -165,38 +270,51 @@
             $("#node-input-useDate").change(function() {
                 if ($(this).is(":checked")) {
                     $(".node-input-useDate-row").show();
-                    $(this).val("true");
                 } else {
                     $(".node-input-useDate-row").hide();
-                    $('#node-input-fromDate').val('');
-                    $('#node-input-toDate').val('');
-                    $(this).val("false");
-                }
-            });
-            if (this.fromDate || this.toDate) {
-                $('#node-input-useDate').prop('checked', true);
-            } else {
-                $('#node-input-useDate').prop('checked', false);
-            }
-            $("#node-input-useDate").change();
-            
-            var today = new Date();
+                    var today = new Date();
             var dy = today.getDate();
             var mth = today.getMonth() + 1;
             var yr = today.getFullYear();
             $("#node-input-fday").val(dy);
             $("#node-input-fmonth").val(mth);
             $("#node-input-fyear").val(yr);
+            $("#node-input-tday").val(dy);
+            $("#node-input-tmonth").val(mth);
+            $("#node-input-tyear").val(yr);
+                }
+            });
+            $("#node-input-useDate").change();
+            
+            $("#node-input-notification").change(function() {
+                if ($(this).val() === "measurements") {
+                    $(".node-input-devicetype-row").show();
+                    $(".node-input-eventstype-row").hide();
+                    $(".node-input-alarmstatus-row").hide();
+                    $(".node-input-dateFilter-row").show();
+
+                } else if ($(this).val() === "events"){
+                    $(".node-input-devicetype-row").hide();
+                    $(".node-input-eventstype-row").show();
+                    $(".node-input-alarmstatus-row").hide();
+                    $(".node-input-dateFilter-row").show();
+                } else if ($(this).val() === "alarms"){
+                    $(".node-input-devicetype-row").hide();
+                    $(".node-input-eventstype-row").hide();
+                    $(".node-input-alarmstatus-row").show();
+                    $(".node-input-dateFilter-row").hide();
+                }
+                
+                
+            });
+            $("#node-input-notification").change();
+            
             
 
             
         },
         oneditsave: function() {
-            if (this.fromDate || this.toDate) {
-                $("#node-input-useDate").val(true);
-            } else {
-                $("#node-input-useDate").val(false);
-            }
+
             
         }
     });
